@@ -1,0 +1,1 @@
+esta es una vista por defecto
