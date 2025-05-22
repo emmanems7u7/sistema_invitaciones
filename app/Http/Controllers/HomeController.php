@@ -23,8 +23,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+        ];
         $clientes = User::with('celulares')->get();
 
-        return view('home', compact('clientes'));
+        return view('home', compact('clientes', 'breadcrumb'));
     }
 }

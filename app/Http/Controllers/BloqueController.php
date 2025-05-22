@@ -29,6 +29,11 @@ class BloqueController extends Controller
      */
     public function create($id)
     {
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'Añadir Componentes', 'url' => route('home')],
+        ];
+
         $bloques = Bloque::with('textos', 'multimedias')
             ->where('invitacion_id', $id)
             ->orderBy('posicion', 'asc')
@@ -48,7 +53,7 @@ class BloqueController extends Controller
         });
 
 
-        return view('bloques.create', compact('invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
+        return view('bloques.create', compact('breadcrumb', 'invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
     }
 
     /**

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.argon')
 
 @section('content')
     <!-- FontAwesome CDN -->
@@ -26,7 +26,7 @@
             </div>
 
             <div class="container mt-5">
-                <h2>Invitaciones</h2>
+
 
                 <!-- Verificar si hay invitaciones -->
                 @if($invitaciones->isEmpty())
@@ -324,12 +324,12 @@
                     }
 
                     div.innerHTML = `
-                            <div class="d-flex align-items-center">
-                                ${vistaPrevia}
-                                <span><strong>${act.actividad}</strong> - ${act.fecha} ${act.horaInicio} - ${act.direccion}</span>
-                            </div>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminarActividad(${index})">Eliminar</button>
-                        `;
+                                    <div class="d-flex align-items-center">
+                                        ${vistaPrevia}
+                                        <span><strong>${act.actividad}</strong> - ${act.fecha} ${act.horaInicio} - ${act.direccion}</span>
+                                    </div>
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarActividad(${index})">Eliminar</button>
+                                `;
 
                     contenedor.appendChild(div);
 

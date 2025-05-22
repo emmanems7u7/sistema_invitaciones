@@ -13,7 +13,7 @@
 
     <!-- Styles / Scripts -->
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 
     <style>
         /* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */

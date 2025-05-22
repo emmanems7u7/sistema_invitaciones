@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.argon')
 
 @section('content')
     <style>
@@ -68,32 +68,40 @@
             @include('bloques.modal_fuentes')
             <!-- Fin Modal fuentes -->
 
-            <div class="container my-5">
-                <h2 class="text-center mb-5" style="font-family: 'Roboto', sans-serif; color: #333;">Colores y Tipos de
-                    Letra para Invitaciones</h2>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="container my-5">
+                        <h2 class="text-center mb-5" style="font-family: 'Roboto', sans-serif; color: #333;">Colores y Tipos
+                            de
+                            Letra para Invitaciones</h2>
 
-                <!-- Fila que contiene ambas secciones -->
-                <div class="row g-4">
+                        <!-- Fila que contiene ambas secciones -->
+                        <div class="row g-4">
 
-                    <!-- Columna para los colores asociados -->
-                    <div class="col-md-6">
-                        <h4 class="text-center mb-4" style="font-family: 'Roboto', sans-serif; color: #555;">Colores
-                            Asociados a la Invitación</h4>
-                        <div class="row">
-                            @foreach($colores as $color)
-                                <div class="col-md-6 col-sm-12 mb-4">
-                                    <div class="card shadow-lg border-0 rounded-3" style="background-color: #f8f9fa;">
-                                        <div class="card-body d-flex align-items-center">
-                                            <!-- Columna para el círculo de color -->
-                                            <div class="me-3"
-                                                style="width: 60px; height: 60px; border-radius: 50%; background-color: {{ $color->codigo }};">
-                                            </div>
+                            <!-- Columna para los colores asociados -->
+                            <div class="col-md-6">
+                                <h4 class="text-center mb-4" style="font-family: 'Roboto', sans-serif; color: #555;">Colores
+                                    Asociados a la Invitación</h4>
+                                <div class="row">
+                                    @foreach($colores as $color)
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card shadow-lg border-0 rounded-3" style="background-color: #f8f9fa;">
+                                                <div class="card-body d-flex align-items-center">
+                                                    <!-- Círculo de color -->
+                                                    <div class="flex-shrink-0 me-3  align-items-center justify-content-center"
+                                                        style="width: 50px; height: 50px; border-radius: 50%; background-color: {{ $color->codigo }};">
+                                                    </div>
 
-                                            <!-- Columna para el contenido de la tarjeta -->
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h5 class="card-title" style="color: #333; font-weight: 600;">{{ $color->tipo }}
-                                                </h5>
-                                                <div class="d-flex justify-content-start gap-2">
+                                                    <!-- Contenido de la tarjeta -->
+
+                                                    <h5 class="card-title mb-1" style="color: #333; font-weight: 600;">
+                                                        {{ $color->tipo }}
+                                                    </h5>
+
+
+                                                </div>
+                                                <div class="card-footer">
+
                                                     <button class="btn btn-warning btn-sm"
                                                         onclick="editarColor({{ $color->id }})">
                                                         <i class="fas fa-edit"></i>
@@ -106,302 +114,264 @@
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </form>
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+
+
+                                    @endforeach
                                 </div>
+                            </div>
 
-                            @endforeach
-                        </div>
-                    </div>
+                            <!-- Columna para los tipos de letra -->
+                            <div class="col-md-6">
+                                <h4 class="text-center mb-4" style="font-family: 'Roboto', sans-serif; color: #555;">Tipos
+                                    de Letra
+                                    para Invitaciones</h4>
+                                <div class="row">
+                                    @foreach ($fuentes as $tipoLetra)
+                                        <div class="col-md-6 col-sm-12 mb-4">
+                                            <div class="card shadow-lg border-0 rounded-3" style="background-color: #f8f9fa;">
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title" style="color: #333; font-weight: 600;">
+                                                        {{ $tipoLetra->tipo }}
+                                                    </h5>
+                                                    <p class="card-text"
+                                                        style="font-family: '{{ $tipoLetra->fuente }}', sans-serif; font-size: 16px; color: #666;">
+                                                        {{ $tipoLetra->fuente }}
+                                                    </p>
 
-                    <!-- Columna para los tipos de letra -->
-                    <div class="col-md-6">
-                        <h4 class="text-center mb-4" style="font-family: 'Roboto', sans-serif; color: #555;">Tipos de Letra
-                            para Invitaciones</h4>
-                        <div class="row">
-                            @foreach ($fuentes as $tipoLetra)
-                                <div class="col-md-6 col-sm-12 mb-4">
-                                    <div class="card shadow-lg border-0 rounded-3" style="background-color: #f8f9fa;">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title" style="color: #333; font-weight: 600;">{{ $tipoLetra->tipo }}
-                                            </h5>
-                                            <p class="card-text"
-                                                style="font-family: '{{ $tipoLetra->fuente }}', sans-serif; font-size: 16px; color: #666;">
-                                                {{ $tipoLetra->fuente }}
-                                            </p>
-                                            <div class="d-flex justify-content-center gap-2">
-                                                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                    data-bs-target="#addTipoLetraModal"
-                                                    onclick="editTipoLetra({{ $tipoLetra->id }})">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <form action="{{ route('fuentes.destroy', $tipoLetra->id) }}" method="POST"
-                                                    style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="fas fa-trash"></i>
+                                                </div>
+                                                <div class="card-body">
+
+                                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                        data-bs-target="#addTipoLetraModal"
+                                                        onclick="editTipoLetra({{ $tipoLetra->id }})">
+                                                        <i class="fas fa-edit"></i>
                                                     </button>
-                                                </form>
+                                                    <form action="{{ route('fuentes.destroy', $tipoLetra->id) }}" method="POST"
+                                                        style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
-                            @endforeach
+                            </div>
+
                         </div>
                     </div>
-
                 </div>
             </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="container mt-5">
 
+                        <!-- Verificar si hay bloques -->
+                        @if($bloques->isEmpty())
+                            <p>No hay bloques para esta invitación.</p>
+                        @else
+                            <!-- Iterar sobre los bloques y mostrar en cards -->
+                            <div class="row">
+                                <h2>Bloques de la Invitación</h2>
+                                <div class="col-md-8">
+                                    <div id="bloques-container">
+                                        @foreach($bloques as $bloque)
 
-            <div class="container mt-5">
+                                            <div class="col-md-12 mb-4 mt-2 bloque-item" data-id="{{ $bloque->id }}">
+                                                <div class="card">
+                                                    <div
+                                                        class="card-header bg-light d-flex justify-content-between align-items-center">
+                                                        <!-- Botón de colapso con icono -->
+                                                        <button
+                                                            class="btn btn-link text-black text-start fw-bold d-flex align-items-center"
+                                                            data-bs-toggle="collapse" data-bs-target="#bloque-{{ $bloque->id }}">
+                                                            <i class="fas fa-folder-open me-2"></i> {{ $bloque->tipo }}
+                                                            <i class="fas fa-chevron-down ms-2"></i>
+                                                        </button>
+                                                        <i class="fas fa-arrows-alt drag-handle" style="cursor: grab;"></i>
+                                                        <!-- Posición alineada completamente a la derecha -->
+                                                        <p class="mb-0 ms-auto bloque-posicion"
+                                                            id="posicion-bloque-{{ $bloque->id }}">
+                                                            <strong>Posición:</strong> {{ $bloque->posicion }}
+                                                        </p>
 
-
-                <!-- Verificar si hay bloques -->
-                @if($bloques->isEmpty())
-                    <p>No hay bloques para esta invitación.</p>
-                @else
-                    <!-- Iterar sobre los bloques y mostrar en cards -->
-                    <div class="row">
-                        <h2>Bloques de la Invitación</h2>
-                        <div class="col-md-8">
-                            <div id="bloques-container">
-                                @foreach($bloques as $bloque)
-
-                                    <div class="col-md-12 mb-4 mt-2 bloque-item" data-id="{{ $bloque->id }}">
-                                        <div class="card">
-                                            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                                                <!-- Botón de colapso con icono -->
-                                                <button class="btn btn-link text-black text-start fw-bold d-flex align-items-center"
-                                                    data-bs-toggle="collapse" data-bs-target="#bloque-{{ $bloque->id }}">
-                                                    <i class="fas fa-folder-open me-2"></i> {{ $bloque->tipo }}
-                                                    <i class="fas fa-chevron-down ms-2"></i>
-                                                </button>
-                                                <i class="fas fa-arrows-alt drag-handle" style="cursor: grab;"></i>
-                                                <!-- Posición alineada completamente a la derecha -->
-                                                <p class="mb-0 ms-auto bloque-posicion" id="posicion-bloque-{{ $bloque->id }}">
-                                                    <strong>Posición:</strong> {{ $bloque->posicion }}
-                                                </p>
-
-                                            </div>
-
-                                            <div id="bloque-{{ $bloque->id }}" class="card-body collapse hide">
-
-
-                                                <p><strong>Fecha de Creación:</strong> {{ $bloque->created_at }}</p>
-                                                <p><strong>posicion</strong> {{ $bloque->posicion }}</p>
-
-                                                @if($bloque->tipo != 'ubicacion')
-                                                    <button class="btn btn-primary" onclick="openModal_texto({{ $bloque->id }})">Agregar
-                                                        Texto</button>
-                                                    <button class="btn btn-primary"
-                                                        onclick="openMultimediaModal({{ $bloque->id }})">Agregar
-                                                        multimedia</button>
-
-                                                    <button class="btn btn-primary"
-                                                        onclick="openPlantillaModal({{ $bloque->id }})">Seleccionar
-                                                        Plantilla</button>
-
-                                                    <button class="btn btn-primary"
-                                                        onclick="openTexturaModal({{ $bloque->id }})">Agregar
-                                                        Textura</button>
-
-                                                    <div id="texturas" class="mt-4">
-                                                        <h6>Textura</h6>
-                                                        @if($bloque->textura)
-                                                            <img src="{{ asset('storage/' . $bloque->textura->textura) }}" alt=""
-                                                                style="width: 20%;">
-                                                            <form action="{{ route('textura.eliminar', ['bloque' => $bloque->id]) }}"
-                                                                method="POST" style="display: inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-sm btn-warning"
-                                                                    onclick="return confirm('¿Estás seguro de eliminar esta textura?')">
-                                                                    Eliminar textura
-                                                                </button>
-                                                            </form>
-                                                        @else
-                                                            <span class="text-muted">Sin textura asignada</span>
-                                                        @endif
                                                     </div>
 
-                                                    <div id="textsContainer_{{ $bloque->id }}" class="mt-4">
-                                                        <h3>Textos Agregados</h3>
-                                                        <div>
-                                                            <div class="row" id="addedTexts_{{ $bloque->id }}">
-                                                                @if($bloque->textos->isEmpty())
-                                                                    <p>No hay textos para este bloque.</p>
+                                                    <div id="bloque-{{ $bloque->id }}" class="card-body collapse hide">
+
+
+                                                        <p><strong>Fecha de Creación:</strong> {{ $bloque->created_at }}</p>
+                                                        <p><strong>posicion</strong> {{ $bloque->posicion }}</p>
+
+                                                        @if($bloque->tipo != 'ubicacion')
+                                                            <button class="btn btn-primary"
+                                                                onclick="openModal_texto({{ $bloque->id }})">Agregar
+                                                                Texto</button>
+                                                            <button class="btn btn-primary"
+                                                                onclick="openMultimediaModal({{ $bloque->id }})">Agregar
+                                                                multimedia</button>
+
+                                                            <button class="btn btn-primary"
+                                                                onclick="openPlantillaModal({{ $bloque->id }})">Seleccionar
+                                                                Plantilla</button>
+
+                                                            <button class="btn btn-primary"
+                                                                onclick="openTexturaModal({{ $bloque->id }})">Agregar
+                                                                Textura</button>
+
+                                                            <div id="texturas" class="mt-4">
+                                                                <h6>Textura</h6>
+                                                                @if($bloque->textura)
+                                                                    <img src="{{ asset('storage/' . $bloque->textura->textura) }}" alt=""
+                                                                        style="width: 20%;">
+                                                                    <form
+                                                                        action="{{ route('textura.eliminar', ['bloque' => $bloque->id]) }}"
+                                                                        method="POST" style="display: inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-sm btn-warning"
+                                                                            onclick="return confirm('¿Estás seguro de eliminar esta textura?')">
+                                                                            Eliminar textura
+                                                                        </button>
+                                                                    </form>
                                                                 @else
-
-                                                                    @foreach ($bloque->textos as $texto)
-                                                                        <div class="col-md-6 mb-4">
-                                                                            <div class="card mb-3">
-
-                                                                                <div class="card-body">
-                                                                                    <h5 class="card-title">{{$texto->tipo}}</h5>
-                                                                                    <p class="card-text">{{$texto->contenido}}</p>
-                                                                                    <!-- Formulario para Eliminar (POST con _method DELETE) -->
-                                                                                    <form action="{{ route('textos.destroy', $texto->id) }}"
-                                                                                        method="POST" style="display:inline;">
-                                                                                        @csrf
-                                                                                        @method('DELETE')
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-danger">Eliminar</button>
-                                                                                    </form>
-
-                                                                                    <!-- Botón para Editar, abrir el modal con los datos del texto -->
-                                                                                    <button type="button" class="btn btn-warning"
-                                                                                        onclick="openEditModal({{ $texto->id }})">Editar</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
+                                                                    <span class="text-muted">Sin textura asignada</span>
                                                                 @endif
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="mediaContainer_{{ $bloque->id }}">
-                                                        <h3>Multimedia </h3>
-                                                        <div class="row" id="addedMultimedia_{{ $bloque->id }}">
 
-                                                            @if($bloque->multimedias->isEmpty())
-                                                                <p>No hay Multimedia para este bloque.</p>
-                                                            @else
-                                                                @foreach ($bloque->multimedias as $media)
-                                                                    <div class="col-md-3 mb-3">
-                                                                        <div class="media-item position-relative">
-                                                                            @if ($media->tipo === 'imagen')
-                                                                                <!-- Imagen con botón de eliminar -->
-                                                                                <button
-                                                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
-                                                                                    aria-label="Eliminar"
-                                                                                    onclick="eliminarMultimedia({{'storage/' . $media->id }}, this)">
-                                                                                    &times;
-                                                                                </button>
-                                                                                <img src="{{ asset('storage/' . $media->ruta) }}"
-                                                                                    alt="Imagen de multimedia" class="img-fluid rounded">
-                                                                            @elseif ($media->tipo == 'video')
-                                                                                <!-- Video con botón de eliminar -->
-                                                                                <button
-                                                                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
-                                                                                    aria-label="Eliminar"
-                                                                                    onclick="eliminarMultimedia({{ $media->id }}, this)">
-                                                                                    &times;
-                                                                                </button>
-                                                                                <video controls class="img-fluid rounded">
-                                                                                    <source src="{{ asset('storage/' . $media->ruta) }}"
-                                                                                        type="{{ $media->tipo }}">
-                                                                                    Tu navegador no soporta videos.
-                                                                                </video>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @else
-                                                    <div class="row">
-                                                        @foreach ($ubicaciones as $ubicacion)
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="card mt-3">
-                                                                    <div class="card-header">
-                                                                        <h5 class="card-title">{{ $ubicacion->actividad }}</h5>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                        <p><strong>Fecha:</strong> {{ $ubicacion->fecha }}</p>
-                                                                        <p><strong>Hora de Inicio:</strong> {{ $ubicacion->hora_inicio }}
-                                                                        </p>
-                                                                        <p><strong>Dirección:</strong> {{ $ubicacion->direccion }}</p>
-                                                                        <p><strong>Geolocalización:</strong>
-                                                                            {{ $ubicacion->geolocalizacion }}
-                                                                        </p>
+                                                            <div id="textsContainer_{{ $bloque->id }}" class="mt-4">
+                                                                <h3>Textos Agregados</h3>
+                                                                <div>
+                                                                    <div class="row" id="addedTexts_{{ $bloque->id }}">
+                                                                        @if($bloque->textos->isEmpty())
+                                                                            <p>No hay textos para este bloque.</p>
+                                                                        @else
 
+                                                                            @foreach ($bloque->textos as $texto)
+                                                                                <div class="col-md-6 mb-4">
+                                                                                    <div class="card mb-3">
+
+                                                                                        <div class="card-body">
+                                                                                            <h5 class="card-title">{{$texto->tipo}}</h5>
+                                                                                            <p class="card-text">{{$texto->contenido}}</p>
+                                                                                            <!-- Formulario para Eliminar (POST con _method DELETE) -->
+                                                                                            <form
+                                                                                                action="{{ route('textos.destroy', $texto->id) }}"
+                                                                                                method="POST" style="display:inline;">
+                                                                                                @csrf
+                                                                                                @method('DELETE')
+                                                                                                <button type="submit"
+                                                                                                    class="btn btn-danger">Eliminar</button>
+                                                                                            </form>
+
+                                                                                            <!-- Botón para Editar, abrir el modal con los datos del texto -->
+                                                                                            <button type="button" class="btn btn-warning"
+                                                                                                onclick="openEditModal({{ $texto->id }})">Editar</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endforeach
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div id="mediaContainer_{{ $bloque->id }}">
+                                                                <h3>Multimedia </h3>
+                                                                <div class="row" id="addedMultimedia_{{ $bloque->id }}">
 
-                                                        @endforeach
+                                                                    @if($bloque->multimedias->isEmpty())
+                                                                        <p>No hay Multimedia para este bloque.</p>
+                                                                    @else
+                                                                        @foreach ($bloque->multimedias as $media)
+                                                                            <div class="col-md-3 mb-3">
+                                                                                <div class="media-item position-relative">
+                                                                                    @if ($media->tipo === 'imagen')
+                                                                                        <!-- Imagen con botón de eliminar -->
+                                                                                        <button
+                                                                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                                                                                            aria-label="Eliminar"
+                                                                                            onclick="eliminarMultimedia({{'storage/' . $media->id }}, this)">
+                                                                                            &times;
+                                                                                        </button>
+                                                                                        <img src="{{ asset('storage/' . $media->ruta) }}"
+                                                                                            alt="Imagen de multimedia" class="img-fluid rounded">
+                                                                                    @elseif ($media->tipo == 'video')
+                                                                                        <!-- Video con botón de eliminar -->
+                                                                                        <button
+                                                                                            class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2"
+                                                                                            aria-label="Eliminar"
+                                                                                            onclick="eliminarMultimedia({{ $media->id }}, this)">
+                                                                                            &times;
+                                                                                        </button>
+                                                                                        <video controls class="img-fluid rounded">
+                                                                                            <source src="{{ asset('storage/' . $media->ruta) }}"
+                                                                                                type="{{ $media->tipo }}">
+                                                                                            Tu navegador no soporta videos.
+                                                                                        </video>
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="row">
+                                                                @foreach ($ubicaciones as $ubicacion)
+                                                                    <div class="col-md-4 mb-4">
+                                                                        <div class="card mt-3">
+                                                                            <div class="card-header">
+                                                                                <h5 class="card-title">{{ $ubicacion->actividad }}</h5>
+                                                                            </div>
+                                                                            <div class="card-body">
+                                                                                <p><strong>Fecha:</strong> {{ $ubicacion->fecha }}</p>
+                                                                                <p><strong>Hora de Inicio:</strong>
+                                                                                    {{ $ubicacion->hora_inicio }}
+                                                                                </p>
+                                                                                <p><strong>Dirección:</strong> {{ $ubicacion->direccion }}
+                                                                                </p>
+                                                                                <p><strong>Geolocalización:</strong>
+                                                                                    {{ $ubicacion->geolocalizacion }}
+                                                                                </p>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                @endforeach
+                                                            </div>
+
+                                                        @endif
                                                     </div>
+                                                </div>
 
-                                                @endif
                                             </div>
-                                        </div>
 
+                                        @endforeach
                                     </div>
-
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <h2>Añadir Invitados</h2>
-                            @include('invitados.create', ['invitacion' => $id])
-                            <h2>Invitados</h2>
-                            @if($invitados->isEmpty())
-                                <p>No hay invitados para esta invitación.</p>
-                            @else
-                                <div class="table-responsive p-1 small">
-                                    <table class="table table-sm table-bordered table-hover align-middle">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <td class="bg-primary"><a href="{{ route('invitados.export', $id) }}"
-                                                        class="text-white" target="_blank"> Exportar Excel</a></td>
-                                                <td colspan="2" class="bg-primary"><a href="{{ route('invitados.export', $id) }}"
-                                                        class="text-white" target="_blank"> Enviar Invitación por email</a></td>
-
-                                            </tr>
-                                            <tr>
-                                                <th style="width: 140px;">Nombre</th>
-                                                <th style="width: 70px;">Asist.</th>
-                                                <th style="width: 150px;">Email</th>
-                                                <th style="width: 100px;">Celular</th>
-                                                <th style="width: 100px;">Enlace</th>
-                                                <th style="width: 70px;">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @forelse ($invitados as $invitado)
-                                                <tr>
-                                                    <td class="text-truncate">{{ $invitado->nombre_completo }}</td>
-                                                    <td
-                                                        class="text-center align-middle {{ $invitado->asistencia == 1 ? 'bg-success' : 'bg-dark' }}">
-                                                        <i
-                                                            class="fas {{ $invitado->asistencia == 1 ? 'fa-check text-white' : 'fa-times text-white' }}"></i>
-                                                    </td>
-                                                    <td class="text-truncate">{{ $invitado->email }}</td>
-                                                    <td>{{ $invitado->celular }}</td>
-                                                    <td>{{ $invitado->enlace }}</td>
-
-                                                    <td>
-                                                        <a href="#" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                                                        <form action="{{ route('invitados.destroy', $invitado->id) }}" method="POST"
-                                                            class="d-inline">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button class="btn btn-sm btn-danger"
-                                                                onclick="return confirm('¿Estás seguro?')">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="5" class="text-center">No hay invitados registrados.</td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
                                 </div>
+                                <div class="col-md-4">
+                                    <h2>Añadir Invitados</h2>
+                                    @include('invitados.create', ['invitacion' => $id])
+                                    @include('invitados.index', ['invitacion' => $id])
 
-                            @endif
-                        </div>
+
+
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endif
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -722,13 +692,13 @@
             // Crear el nuevo campo de texto para el tipo restante
             const nuevoTipo = tiposRestantes[0]; // Usamos el primer tipo disponible
             const campoHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="form-group" id="campo_${nuevoTipo}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <label for="content_${nuevoTipo}">Contenido para ${nuevoTipo}</label>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <textarea class="form-control" id="content_${nuevoTipo}" name="contenido_${nuevoTipo}" rows="4" required></textarea>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="hidden" name="tipo_${nuevoTipo}" value="${nuevoTipo}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button type="button" class="btn btn-danger" onclick="removeTextField('${nuevoTipo}')">Eliminar ${nuevoTipo}</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                    `;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="form-group" id="campo_${nuevoTipo}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <label for="content_${nuevoTipo}">Contenido para ${nuevoTipo}</label>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <textarea class="form-control" id="content_${nuevoTipo}" name="contenido_${nuevoTipo}" rows="4" required></textarea>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <input type="hidden" name="tipo_${nuevoTipo}" value="${nuevoTipo}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button type="button" class="btn btn-danger" onclick="removeTextField('${nuevoTipo}')">Eliminar ${nuevoTipo}</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                `;
 
             // Agregar el nuevo campo al contenedor
             $('#textFieldsContainer').append(campoHTML);
@@ -898,24 +868,24 @@
                     // Iterar sobre cada texto recibido y agregarlo a la interfaz
                     data.textos.forEach(texto => {
                         const newText = `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="col-md-4 mb-4" id="texto_${texto.id}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="card mb-3">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div class="card-body">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <h5 class="card-title">${texto.tipo}</h5>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p class="card-text">${texto.contenido}</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="col-md-4 mb-4" id="texto_${texto.id}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <div class="card mb-3">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="card-body">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <h5 class="card-title">${texto.tipo}</h5>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <p class="card-text">${texto.contenido}</p>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <!-- Formulario de eliminación con el ID dinámico de la respuesta -->
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <form action="/textos/destroy/${texto.id}" method="POST" style="display:inline;">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                <input type="hidden" name="_token" value="${document.querySelector('input[name="_token"]').value}">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                <input type="hidden" name="_method" value="DELETE">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                <button type="button" class="btn btn-danger" onclick="eliminarTexto(${texto.id})">Eliminar</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            </form>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <!-- Formulario de eliminación con el ID dinámico de la respuesta -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <form action="/textos/destroy/${texto.id}" method="POST" style="display:inline;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="hidden" name="_token" value="${document.querySelector('input[name="_token"]').value}">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="hidden" name="_method" value="DELETE">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button type="button" class="btn btn-danger" onclick="eliminarTexto(${texto.id})">Eliminar</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </form>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <!-- Botón para Editar, abrir el modal con los datos del texto -->
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button type="button" class="btn btn-warning" onclick="openEditModal(${texto.id})">Editar</button>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>       
-                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>`;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <!-- Botón para Editar, abrir el modal con los datos del texto -->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <button type="button" class="btn btn-warning" onclick="openEditModal(${texto.id})">Editar</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>`;
 
                         // Agregar el texto al contenedor
                         contenedor.innerHTML += newText;
@@ -1229,32 +1199,32 @@
 
                 // Botón de eliminar
                 const deleteButtonHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2" aria-label="Eliminar">
-                                                                                                                                                                                                                                                                                                                                                                                    &times;
-                                                                                                                                                                                                                                                                                                                                                                                </button>`;
+                                                                                                                                                                                                                                                                                                                                                                                                                                            <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2" aria-label="Eliminar">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                &times;
+                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>`;
 
                 // Contenido multimedia
                 if (media.tipo === 'imagen') {
                     mediaItem.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                    ${deleteButtonHTML}
-                                                                                                                                                                                                                                                                                                                                                                                    <img src="/storage/${media.ruta}" alt="Imagen de multimedia" class="img-fluid rounded">
-                                                                                                                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ${deleteButtonHTML}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <img src="/storage/${media.ruta}" alt="Imagen de multimedia" class="img-fluid rounded">
+                                                                                                                                                                                                                                                                                                                                                                                                                                            `;
                 } else if (media.tipo === 'video') {
                     mediaItem.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                    ${deleteButtonHTML}
-                                                                                                                                                                                                                                                                                                                                                                                    <video controls class="img-fluid rounded w-100">
-                                                                                                                                                                                                                                                                                                                                                                                        <source src="/storage/${media.ruta}" type="video/mp4">
-                                                                                                                                                                                                                                                                                                                                                                                        Tu navegador no soporta videos.
-                                                                                                                                                                                                                                                                                                                                                                                    </video>
-                                                                                                                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ${deleteButtonHTML}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <video controls class="img-fluid rounded w-100">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <source src="/storage/${media.ruta}" type="video/mp4">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Tu navegador no soporta videos.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </video>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            `;
                 } else if (media.tipo === 'audio') {
                     mediaItem.innerHTML = `
-                                                                                                                                                                                                                                                                                                                                                                                    ${deleteButtonHTML}
-                                                                                                                                                                                                                                                                                                                                                                                    <audio controls class="w-100 mt-2">
-                                                                                                                                                                                                                                                                                                                                                                                        <source src="/storage/${media.ruta}" type="audio/mpeg">
-                                                                                                                                                                                                                                                                                                                                                                                        Tu navegador no soporta audio.
-                                                                                                                                                                                                                                                                                                                                                                                    </audio>
-                                                                                                                                                                                                                                                                                                                                                                                `;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                ${deleteButtonHTML}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                <audio controls class="w-100 mt-2">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    <source src="/storage/${media.ruta}" type="audio/mpeg">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    Tu navegador no soporta audio.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                </audio>
+                                                                                                                                                                                                                                                                                                                                                                                                                                            `;
                 }
 
                 // Agregar evento al botón de eliminar

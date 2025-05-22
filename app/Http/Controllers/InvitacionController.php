@@ -21,8 +21,11 @@ class InvitacionController extends Controller
 {
     public function index()
     {
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+        ];
         $invitaciones = Invitacion::all();
-        return view('invitaciones.index', compact('invitaciones'));
+        return view('invitaciones.index', compact('invitaciones', 'breadcrumb'));
     }
     public function previsualizar($id)
     {
@@ -235,10 +238,14 @@ class InvitacionController extends Controller
     }
     public function create($id)
     {
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'invitaciones', 'url' => route('home')],
+        ];
         $user_id = $id;
         $invitaciones = Invitacion::with('ubicaciones')->where('user_id', $id)->get();
         //dd($invitaciones);
-        return view('invitaciones.create', compact('user_id', 'invitaciones'));
+        return view('invitaciones.create', compact('user_id', 'invitaciones', 'breadcrumb'));
     }
 
     public function store(Request $request)

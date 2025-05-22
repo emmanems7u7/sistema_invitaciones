@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.argon')
 
 @section('content')
     <div class="container">
@@ -30,52 +30,54 @@
                             @if($clientes->isEmpty())
                                 <p>No hay usuarios con el rol de "Cliente".</p>
                             @else
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th>Correo Electrónico</th>
-                                            <th>Celular</th>
-
-                                            <th>Fecha de Creación</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($clientes as $cliente)
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>{{ $cliente->name }}</td>
-                                                <td>{{ $cliente->email }}</td>
-                                                <td>
-                                                    @if ($cliente->celulares->isNotEmpty())
-                                                        @foreach ($cliente->celulares as $celular)
-                                                            <p>Celular: {{ $celular->celular }}
-                                                                - WhatsApp: {{ $celular->whatsapp ? 'Sí' : 'No' }}</p>
-                                                        @endforeach
-                                                    @else
-                                                        <p>No hay celulares asociados.</p>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $cliente->created_at->format('d/m/Y') }}</td>
-                                                <td>
-                                                    <a href=" {{route('crear_invitacion', ['id' => $cliente->id])}} "
-                                                        class="btn btn-info btn-sm">Crear
-                                                        Invitacion</a>
-                                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#editUserModal" data-id="{{ $cliente->id }}">
-                                                        Editar
-                                                    </button>
-                                                    <form action="{{ route('users.destroy', $cliente->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                                    </form>
-                                                </td>
+                                                <th>Nombre</th>
+                                                <th>Correo Electrónico</th>
+                                                <th>Celular</th>
+
+                                                <th>Fecha de Creación</th>
+                                                <th>Acciones</th>
                                             </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($clientes as $cliente)
+                                                <tr>
+                                                    <td>{{ $cliente->name }}</td>
+                                                    <td>{{ $cliente->email }}</td>
+                                                    <td>
+                                                        @if ($cliente->celulares->isNotEmpty())
+                                                            @foreach ($cliente->celulares as $celular)
+                                                                <p>Celular: {{ $celular->celular }}
+                                                                    - WhatsApp: {{ $celular->whatsapp ? 'Sí' : 'No' }}</p>
+                                                            @endforeach
+                                                        @else
+                                                            <p>No hay celulares asociados.</p>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $cliente->created_at->format('d/m/Y') }}</td>
+                                                    <td>
+                                                        <a href=" {{route('crear_invitacion', ['id' => $cliente->id])}} "
+                                                            class="btn btn-info btn-sm">Crear
+                                                            Invitacion</a>
+                                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#editUserModal" data-id="{{ $cliente->id }}">
+                                                            Editar
+                                                        </button>
+                                                        <form action="{{ route('users.destroy', $cliente->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             @endif
                         </div>
                     </div>

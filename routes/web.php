@@ -9,6 +9,7 @@ use App\Http\Controllers\TextoController;
 use App\Http\Controllers\ColoresController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\ComponenteController;
+use App\Http\Controllers\ConfiguracionController;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ContenidoController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\ContenidoController;
 use App\Http\Controllers\FuenteController;
 use App\Http\Controllers\TexturaController;
 use App\Http\Controllers\InvitadoController;
+use App\Http\Controllers\ConfCorreoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -110,10 +112,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/export/invitados/{id}', [InvitadoController::class, 'export'])->name('invitados.export');
 
+    Route::get('/export/email/{id}', [InvitadoController::class, 'enviarEmail'])->name('invitados.email');
+
 });
 
 
 
+
+
+Route::get('configuracion_correo', [ConfCorreoController::class, 'index'])->name('configuracion_correo.index');
+Route::put('configuracion_correo', [ConfCorreoController::class, 'update'])->name('configuracion_correo.update');
+
+Route::get('/correo/prueba', [ConfCorreoController::class, 'enviarPrueba'])
+    ->name('correo.prueba');
 
 Route::get('/invitacion/{id}', [InvitacionController::class, 'generar'])->name('invitacion.generar');
 Route::get('/invitacion/{id}/{invitado_id}', [InvitacionController::class, 'generar_invitado'])->name('invitacion.generar_invitado');

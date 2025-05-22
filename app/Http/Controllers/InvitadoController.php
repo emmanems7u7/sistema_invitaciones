@@ -9,6 +9,8 @@ use App\Models\Invitaciones;
 use App\Exports\InvitadosExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Hashids\Hashids;
+use App\Mail\InvitacionConfirmacionMail;
+use Illuminate\Support\Facades\Mail;
 class InvitadoController extends Controller
 {
     public function index()
@@ -106,5 +108,23 @@ class InvitadoController extends Controller
     public function export($invitacion_id)
     {
         return Excel::download(new InvitadosExport($invitacion_id), 'invitados.xlsx');
+    }
+
+    public function enviarEmail($id)
+    {
+        $hashids = new Hashids(config('app.key'), 10);
+        $invitados = Invitado::where('invitacion_id', $id)->get()->map(function ($invitado) use ($id, $hashids) {
+            $invitado->enlace = route('invitacion.generar_invitado', [
+                'id' => $hashids->encode($id),
+                'invitado_id' => $hashids->encode($invitado->id)
+            ]);
+            return $invitado;
+        });
+
+        $invitacion = Invitacion::with('user')->find($id);
+
+        foreach ($invitados as $invitado) {
+            Mail::to($invitado->email)->send(new InvitacionConfirmacionMail($invitado, $invitacion));
+        }
     }
 }
