@@ -110,9 +110,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/invitados/{invitado}', [InvitadoController::class, 'update'])->name('invitados.update');
     Route::delete('/invitados/{invitado}', [InvitadoController::class, 'destroy'])->name('invitados.destroy');
 
+
     Route::get('/export/invitados/{id}', [InvitadoController::class, 'export'])->name('invitados.export');
+    Route::get('/export/invitados/enviar/{id}', [InvitadoController::class, 'export_invitacion'])->name('invitados.export_data');
+
 
     Route::get('/export/email/{id}', [InvitadoController::class, 'enviarEmail'])->name('invitados.email');
+    Route::post('/invitados/importar/{invitacion_id}', [InvitadoController::class, 'importarExcel'])->name('invitados.importar');
 
 });
 

@@ -11,7 +11,13 @@
         $confirmarRuta = route('asistencia.confirmar', ['invitado_id' => $hashedId]);
     }
 @endphp
-
+<style>
+    .alertify .ajs-dialog {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        margin-top: 0 !important;
+    }
+</style>
 @if(isset($bloque['contenido']) && $confirmarRuta)
     <div class="container-fluid" @if(!empty($bloque['textura']))
         style="background-image: url('{{ asset('storage/' . $bloque['textura']) }}'); padding: 10px; background-position: center;"

@@ -71,9 +71,8 @@
         </p>
 
         <p>
-            Por favor, confirma tu asistencia haciendo clic en el siguiente botón:
+            Por favor, haz clic en el siguiente botón para ver la invitación y confirmar tu asistencia:
         </p>
-
         <p>
             <a href="{{ $invitado->enlace }}" class="button" target="_blank" rel="noopener noreferrer">
                 Confirmar asistencia

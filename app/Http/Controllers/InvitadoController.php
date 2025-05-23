@@ -7,10 +7,15 @@ use App\Models\Invitacion;
 use Illuminate\Http\Request;
 use App\Models\Invitaciones;
 use App\Exports\InvitadosExport;
+use App\Exports\InvitadosExport_envia;
+
 use Maatwebsite\Excel\Facades\Excel;
 use Hashids\Hashids;
 use App\Mail\InvitacionConfirmacionMail;
 use Illuminate\Support\Facades\Mail;
+
+use App\Imports\InvitadosImport;
+
 class InvitadoController extends Controller
 {
     public function index()
@@ -109,6 +114,11 @@ class InvitadoController extends Controller
     {
         return Excel::download(new InvitadosExport($invitacion_id), 'invitados.xlsx');
     }
+    public function export_invitacion($invitacion_id)
+    {
+        return Excel::download(new InvitadosExport_envia($invitacion_id), 'invitados.xlsx');
+    }
+
 
     public function enviarEmail($id)
     {
@@ -126,5 +136,16 @@ class InvitadoController extends Controller
         foreach ($invitados as $invitado) {
             Mail::to($invitado->email)->send(new InvitacionConfirmacionMail($invitado, $invitacion));
         }
+    }
+
+    public function importarExcel(Request $request, $invitacion_id)
+    {
+        $request->validate([
+            'archivo' => 'required|file|mimes:xlsx,xls,csv',
+        ]);
+
+        Excel::import(new InvitadosImport($invitacion_id), $request->file('archivo'));
+
+        return back()->with('success', 'Invitados importados correctamente');
     }
 }
