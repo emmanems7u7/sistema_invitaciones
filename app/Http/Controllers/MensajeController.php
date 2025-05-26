@@ -7,6 +7,7 @@ use App\Models\Mensaje;
 use App\Models\Invitacion;
 use App\Models\Imagen;
 use App\Models\Multimedia_mensaje;
+use Illuminate\Support\Facades\Storage;
 
 class MensajeController extends Controller
 {
@@ -61,7 +62,19 @@ class MensajeController extends Controller
     public function destroy($id)
     {
         $mensaje = Mensaje::findOrFail($id);
+
+        // Eliminar archivos multimedia relacionados si existen
+        if ($mensaje->multimedia->count()) {
+            foreach ($mensaje->multimedia as $archivo) {
+                if (Storage::exists($archivo->ruta)) {
+                    Storage::delete($archivo->ruta);
+                }
+                $archivo->delete(); // Elimina el registro de la base de datos
+            }
+        }
+
         $mensaje->delete();
-        return back()->with('success', 'Mensaje eliminado');
+
+        return redirect()->back()->with('success', 'Mensaje eliminado correctamente.');
     }
 }

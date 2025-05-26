@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/multimedia/crear', [MultimediaController::class, 'store'])->name('multimedia.store');
     Route::post('/multimedia/crea', [MultimediaController::class, 'prueba'])->name('multimedia.prueba');
     Route::delete('/multimedia/eliminar/{id}', [MultimediaController::class, 'eliminar'])->name('multimedia.eliminar');
+    Route::delete('/mensajes/{id}', [MensajeController::class, 'destroy'])->name('mensajes.destroy');
 
     // Rutas de mensajes
     Route::post('/mensajes/crear/{id}', [MensajeController::class, 'store'])->name('mensajes.store');

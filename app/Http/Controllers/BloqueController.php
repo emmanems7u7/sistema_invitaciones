@@ -8,6 +8,8 @@ use App\Models\Contenido;
 use App\Models\Fuente;
 use App\Models\Ubicacion;
 use App\Models\Invitado;
+use App\Models\Mensaje;
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
@@ -51,9 +53,10 @@ class BloqueController extends Controller
             ]);
             return $invitado;
         });
+        $mensajes = Mensaje::with('multimedia')->where('invitacion_id', $id)->get();
 
 
-        return view('bloques.create', compact('breadcrumb', 'invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
+        return view('bloques.create', compact('mensajes', 'breadcrumb', 'invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
     }
 
     /**
