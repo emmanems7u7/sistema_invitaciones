@@ -314,8 +314,15 @@ class InvitacionController extends Controller
     }
     public function edit(Invitacion $invitacion)
     {
+
+        $breadcrumb = [
+            ['name' => 'Inicio', 'url' => route('home')],
+            ['name' => 'invitaciones', 'url' => route('crear_invitacion', ['id' => $invitacion->user_id])],
+            ['name' => 'Editar', 'url' => route('home')],
+        ];
         $users = User::all();
-        return view('invitaciones.edit', compact('invitacion', 'users'));
+        $invitacion = Invitacion::with(['ubicaciones'])->findOrFail($invitacion->id);
+        return view('invitaciones.edit', compact('invitacion', 'users', 'breadcrumb'));
     }
 
     public function update(Request $request, Invitacion $invitacion)

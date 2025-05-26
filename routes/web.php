@@ -9,7 +9,7 @@ use App\Http\Controllers\TextoController;
 use App\Http\Controllers\ColoresController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\ComponenteController;
-use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\UbicacionController;
 use Illuminate\Support\Facades\Crypt;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\ContenidoController;
@@ -20,7 +20,7 @@ use App\Http\Controllers\InvitadoController;
 use App\Http\Controllers\ConfCorreoController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -42,7 +42,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('crear/{id}/invitacion', [InvitacionController::class, 'create'])->name('crear_invitacion');
     Route::get('ver/{id}/invitacion', [InvitacionController::class, 'show'])->name('invitacion');
     Route::get('ver/{id}/invitacion/boda', [InvitacionController::class, 'show_boda'])->name('invitacion_boda');
-    Route::resource('invitaciones', InvitacionController::class);
+
+    Route::get('/invitaciones', [InvitacionController::class, 'index'])->name('invitaciones.index');
+    Route::get('/invitaciones/create', [InvitacionController::class, 'create'])->name('invitaciones.create');
+    Route::post('/invitaciones', [InvitacionController::class, 'store'])->name('invitaciones.store');
+    Route::get('/invitaciones/{invitacion}/edit', [InvitacionController::class, 'edit'])->name('invitaciones.edit');
+    Route::put('/invitaciones/{invitacion}', [InvitacionController::class, 'update'])->name('invitaciones.update');
+    Route::delete('/invitaciones/{invitacion}', [InvitacionController::class, 'destroy'])->name('invitaciones.destroy');
+
+
     Route::get('/invitacion/ver/{id}', [InvitacionController::class, 'previsualizar'])->name('invitacion.ver');
 
     // Rutas de bloques
@@ -50,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bloques/crear/{id}', [BloqueController::class, 'create'])->name('bloques.create');
     Route::post('/bloque/plantilla', [BloqueController::class, 'storePlantilla'])->name('bloque.componente');
     Route::post('/bloques/update-posicion', [BloqueController::class, 'updatePosicion'])->name('bloques.updatePosicion');
+    Route::delete('/eliminar/bloque/{bloque}', [BloqueController::class, 'destroy'])->name('bloques.destroy');
+
+
     // Rutas de colores
     Route::prefix('colores')->name('colores.')->group(function () {
         Route::get('/', [ColoresController::class, 'index'])->name('index');
@@ -117,6 +128,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/export/email/{id}', [InvitadoController::class, 'enviarEmail'])->name('invitados.email');
     Route::post('/invitados/importar/{invitacion_id}', [InvitadoController::class, 'importarExcel'])->name('invitados.importar');
+
+
+    Route::get('/ubicaciones', [UbicacionController::class, 'index'])->name('ubicaciones.index');
+    Route::get('/ubicaciones/create', [UbicacionController::class, 'create'])->name('ubicaciones.create');
+    Route::post('/ubicaciones', [UbicacionController::class, 'store'])->name('ubicaciones.store');
+    Route::get('/ubicaciones/{ubicacion}/edit', [UbicacionController::class, 'edit'])->name('ubicaciones.edit');
+    Route::put('/ubicaciones/{ubicacion}', [UbicacionController::class, 'update'])->name('ubicaciones.update');
+    Route::delete('/ubicaciones/{ubicacion}', [UbicacionController::class, 'destroy'])->name('ubicaciones.destroy');
 
 });
 

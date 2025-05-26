@@ -128,7 +128,12 @@ class BloqueController extends Controller
      */
     public function destroy(Bloque $bloque)
     {
-        //
+        try {
+            $bloque->delete();
+            return redirect()->back()->with('success', 'Bloque eliminado correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Ocurrió un error al eliminar el bloque. Inténtalo nuevamente.');
+        }
     }
 
     public function storePlantilla(Request $request)

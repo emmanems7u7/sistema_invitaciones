@@ -253,7 +253,6 @@
 
 
 
-
 <div id="wedding" class="wedding-box pt-4">
     <div class="container">
         <div class="row justify-content-center">
@@ -300,8 +299,9 @@
                                 </svg>
                             </div>
                             <div class="icon-2">
-                                <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 11.67 37.63" style=" shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality;
-                                                                                fill-rule:evenodd; clip-rule:evenodd"
+                                <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 11.67 37.63"
+                                    style=" shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality;
+                                                                                                                                                                                                                                                    fill-rule:evenodd; clip-rule:evenodd"
                                     version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
                                     <defs></defs>
                                     <g id="Layer_x0020_1">
@@ -333,7 +333,213 @@
         </div>
     </div>
 </div>
+<style>
+    .btn-custom {
+        font-family: inherit;
+        font-size: 20px;
+        background: #212121;
+        color: white;
+        fill: rgb(155, 153, 153);
+        padding: 0.7em 1em;
+        padding-left: 0.9em;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border: none;
+        border-radius: 15px;
+        font-weight: 1000;
+        width: 50%
+    }
 
+    .btn-custom span {
+        display: block;
+        margin-left: 0.3em;
+        font-size: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-custom svg {
+        display: block;
+        transform-origin: center center;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .btn-custom:hover {
+        background: #000;
+    }
+
+    .btn-custom:hover .svg-wrapper {
+        transform: scale(1.25);
+        transition: 0.5s linear;
+    }
+
+    .btn-custom:hover svg {
+        transform: translateX(1.46em) scale(1.1);
+        fill: #fff;
+    }
+
+    .btn-custom:hover span {
+        opacity: 0;
+        transition: 0.5s linear;
+    }
+
+    .btn-custom:active {
+        transform: scale(0.95);
+    }
+
+
+    /* Animaciones */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutLeft {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        to {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    }
+
+    .toast.slide-in {
+        animation: slideInRight 0.5s forwards;
+    }
+
+    .toast.slide-out {
+        animation: slideOutLeft 0.5s forwards;
+    }
+
+    /* Botón cerrar arriba derecha */
+    .toast-body {
+        position: relative;
+    }
+
+    .toast-body .btn-close {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+        z-index: 1051;
+    }
+
+    /* Botón flotante para reabrir toast */
+    #reopenToastBtn {
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        background: rgba(33, 33, 33, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0.4;
+        transition: opacity 0.3s ease;
+        z-index: 1050;
+    }
+
+    #reopenToastBtn:hover {
+        opacity: 1;
+    }
+</style>
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1100; max-width: 350px;">
+    <div id="miToast" class="toast align-items-center text-white bg-primary border-0" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex flex-column p-3 toast-body">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                aria-label="Cerrar"></button>
+            <p>¿Quieres agregar alguna de estas actividades a tu calendario de Google?</p>
+
+            @foreach ($bloque['contenido'] as $ubicacion)
+                @php
+                    try {
+                        $startDateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $ubicacion->fecha . ' ' . $ubicacion->hora_inicio)->utc();
+                    } catch (\Exception $e) {
+                        $startDateTime = \Carbon\Carbon::now()->utc();
+                    }
+
+                    $start = $startDateTime->format('Ymd\THis\Z');
+
+                    $text = urlencode($ubicacion->actividad);
+                    $details = urlencode("Dirección: " . $ubicacion->direccion);
+                    $location = urlencode($ubicacion->direccion);
+                  @endphp
+
+                <a class="btn-custom"
+                    href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ $text }}&dates={{ $start }}&details={{ $details }}&location={{ $location }}&trp=false"
+                    target="_blank" style="display:flex; align-items:center; margin-bottom:0.5rem;">
+                    <div class="svg-wrapper-1" style="margin-right:0.5rem;">
+                        <div class="svg-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"
+                                fill="currentColor" class="icon">
+                                <path
+                                    d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H5V9h14v9zM7 11h5v5H7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span>{{ $ubicacion->actividad }}</span>
+                </a>
+            @endforeach
+        </div>
+    </div>
+</div>
+<button id="reopenToastBtn" title="Mostrar invitación al calendario" style="display:none;">
+    &#128197;
+</button>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toastEl = document.getElementById('miToast');
+        const reopenBtn = document.getElementById('reopenToastBtn');
+        const toast = new bootstrap.Toast(toastEl, { autohide: false });
+
+        function showToast() {
+            toastEl.classList.remove('slide-out');
+            toastEl.classList.add('slide-in');
+            toastEl.style.display = 'block';
+            toast.show();
+            reopenBtn.style.display = 'none';
+        }
+
+        function hideToast() {
+            toastEl.classList.remove('slide-in');
+            toastEl.classList.add('slide-out');
+            toastEl.addEventListener('animationend', () => {
+                toastEl.style.display = 'none';
+                reopenBtn.style.display = 'flex';
+            }, { once: true });
+        }
+
+        // Mostrar automáticamente después de 3 segundos
+        setTimeout(showToast, 3000);
+
+        // Cierre manual
+        toastEl.querySelector('.btn-close').addEventListener('click', (e) => {
+            e.preventDefault();
+            hideToast();
+        });
+
+        // Botón para reabrir
+        reopenBtn.addEventListener('click', () => {
+            showToast();
+        });
+    });
+</script>
 
 <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

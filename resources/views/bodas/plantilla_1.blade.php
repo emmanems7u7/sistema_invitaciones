@@ -32,77 +32,64 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
-
-
   <!-- Customized Bootstrap Stylesheet -->
   <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-  <style>
-    @php
-    // Definir la función fuera del ciclo foreach
-    function hexToRgba($hex, $opacity = 1)
-    {
-      // Eliminar el símbolo '#' si está presente
-      $hex = ltrim($hex, '#');
+  @include('bodas.colores')
 
-      // Si el valor hexadecimal es corto (3 caracteres), expandirlo a 6 caracteres
-      if (strlen($hex) == 3) {
-      $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
-      }
-
-      // Extraer los componentes RGB del valor hexadecimal
-      $r = hexdec(substr($hex, 0, 2));
-      $g = hexdec(substr($hex, 2, 2));
-      $b = hexdec(substr($hex, 4, 2));
-
-      // Devolver el valor en formato RGBA
-      return "rgba($r, $g, $b, $opacity)";
-    }
-    @endphp
-    @foreach ($fuentes as $fuente)
+  @foreach ($fuentes as $fuente)
     @php 
-      $fuente_ = $fuente->fuente;
+    $fuente_ = $fuente->fuente;
 
-    @endphp
+  @endphp
   @endforeach
 
-    @foreach($invitacion->colores as $color)
+  @foreach($invitacion->colores as $color)
     @php
-      // Convertir los colores a RGBA y asignar a las variables
-      if ($color->tipo == 'primario') {
-      $primario = $color->codigo;
-      $primario_rgba = hexToRgba($color->codigo, 0.8);
-      }
+    // Convertir los colores a RGBA y asignar a las variables
+    if ($color->tipo == 'primario') {
+    $primario = $color->codigo;
+    $primario_rgba = hexToRgba($color->codigo, 0.8);
+    $primario_rgba_97 = hexToRgba($color->codigo, 0.97);
+    }
 
-      if ($color->tipo == 'hover') {
-      $primario_hover = $color->codigo;
-      $primario_hover_rgba = hexToRgba($color->codigo, 0.8);
-      }
+    if ($color->tipo == 'hover') {
+    $primario_hover = $color->codigo;
+    $primario_hover_rgba = hexToRgba($color->codigo, 0.8);
+    }
 
-      if ($color->tipo == 'borde') {
-      $primario_border = $color->codigo;
-      $primario_border_rgba = hexToRgba($color->codigo, 0.8);
-      }
+    if ($color->tipo == 'borde') {
+    $primario_border = $color->codigo;
+    $primario_border_rgba = hexToRgba($color->codigo, 0.8);
+    }
 
-      if ($color->tipo == 'secundario') {
-      $secundario = $color->codigo;
-      $secundario_rgba = hexToRgba($color->codigo, 0.8);
-      }
+    if ($color->tipo == 'secundario') {
+    $secundario = $color->codigo;
+    $secundario_rgba = hexToRgba($color->codigo, 0.8);
+    $secundario_97 = hexToRgba($color->codigo, 0.97);
+    }
 
-      if ($color->tipo == 'fondo') {
-      $fondo = $color->codigo;
-      $fondo_rgba = hexToRgba($color->codigo, 0.8);
-      }
-      if ($color->tipo == 'fuente_primaria') {
-      $fondo = $color->codigo;
-      $fondo_rgba = hexToRgba($color->codigo, 0.8);
-      }
-      if ($color->tipo == 'fuente_secundaria') {
-      $fondo = $color->codigo;
-      $fondo_rgba = hexToRgba($color->codigo, 0.8);
-      }
+    if ($color->tipo == 'fondo') {
+    $fondo = $color->codigo;
+    $fondo_rgba = hexToRgba($color->codigo, 0.8);
+    }
+    if ($color->tipo == 'fuente_primaria') {
+    $fondo = $color->codigo;
+    $fondo_rgba = hexToRgba($color->codigo, 0.8);
+    }
+    if ($color->tipo == 'fuente_secundaria') {
+    $fondo = $color->codigo;
+    $fondo_rgba = hexToRgba($color->codigo, 0.8);
+    }
+    if ($color->tipo == 'fondo_inicio') {
+    $fondo_inicio = $color->codigo;
+    $fondo_inicio_rgba = hexToRgba($color->codigo, 0.97);
+    }
     @endphp
-  @endforeach :root {
+  @endforeach 
+
+
+  <style>
+    :root {
       --blue: #007bff;
       --indigo: #6610f2;
       --purple: #6f42c1;
@@ -122,10 +109,13 @@
       --primary_rgba:
         {{$primario_rgba}}
       ;
-
+      --primary_rgba_97:
+        {{$primario_rgba_97}}
+      ;
       --primary_hover:
         {{$primario_hover}}
       ;
+
       --primary_hover_rgba:
         {{$primario_hover_rgba}}
       ;
@@ -142,6 +132,14 @@
       ;
       --secondary_rgba:
         {{$secundario_rgba}}
+      ;
+
+      --secondary_rgba_97:
+        {{$secundario_97}}
+      ;
+
+      --fondo_inicio_rgba_97:
+        {{$fondo_inicio_rgba}}
       ;
 
       --fondo:
@@ -242,10 +240,21 @@
       padding: 0;
       overflow-x: hidden;
       width: 100%;
+      s
+croll-behavior: smooth;
     }
-  </style>
-</head>
+   </style>
+</head><script>
+  document.addEventListener('wheel', function(e) {
+    e.preventDefault();
 
+    const scrollAmount = e.deltaY > 0 ? 60 : -10; // Cambia 10 por un valor menor para más lentitud
+    window.scrollBy({
+      top: scrollAmount,
+      behavior: 'smooth'
+    });
+  }, { passive: false });
+</script>
 <style>
   #overlay {
     position: fixed;
@@ -253,7 +262,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(93 55 98 / 96%);
+    background-color: var(--fondo_inicio_rgba_97);
     /* Fondo oscuro con opacidad */
     z-index: 9999;
     /* Asegura que esté encima de todo el contenido */
@@ -327,9 +336,9 @@
         $('#overlay').fadeOut();
         $('body, html').removeClass('no-scroll');
       });
-    });
-  </script>
-  @foreach ($bloques_vista as $bloque)
+  });
+</script>
+@foreach ($bloques_vista as $bloque)
     @if(
     in_array($bloque['tipo'], [
     'carrusel',
@@ -346,7 +355,7 @@
     ])
     )
     @include($bloque['ruta_componente'])
-    @else
+  @else
     <p>Tipo de bloque no reconocido.</p>
     @endif
   @endforeach
@@ -419,10 +428,11 @@
       transform: scale(1.4) translateY(0) translateZ(0);
     }
   </style>
+  
+  
 
-
-
-
+       
+  
   <!-- RSVP End -->
 
 

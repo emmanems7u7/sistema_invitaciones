@@ -59,6 +59,17 @@
                                                             <p><strong>Geolocalización:</strong> {{ $ubicacion->geolocalizacion }}</p>
 
                                                         </div>
+                                                        <div class="card-footer">
+                                                            <a class="btn btn-warning"
+                                                                href="{{ route('invitaciones.edit', $invitacion) }}">Editar</a>
+                                                            <form action="{{ route('invitaciones.destroy', $invitacion->id) }}"
+                                                                method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">Eliminar
+                                                                    Invitación</button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -324,12 +335,12 @@
                     }
 
                     div.innerHTML = `
-                                    <div class="d-flex align-items-center">
-                                        ${vistaPrevia}
-                                        <span><strong>${act.actividad}</strong> - ${act.fecha} ${act.horaInicio} - ${act.direccion}</span>
-                                    </div>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarActividad(${index})">Eliminar</button>
-                                `;
+                                                    <div class="d-flex align-items-center">
+                                                        ${vistaPrevia}
+                                                        <span><strong>${act.actividad}</strong> - ${act.fecha} ${act.horaInicio} - ${act.direccion}</span>
+                                                    </div>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminarActividad(${index})">Eliminar</button>
+                                                `;
 
                     contenedor.appendChild(div);
 
