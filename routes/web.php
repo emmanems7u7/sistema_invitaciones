@@ -85,8 +85,6 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/multimedia/eliminar/{id}', [MultimediaController::class, 'eliminar'])->name('multimedia.eliminar');
     Route::delete('/mensajes/{id}', [MensajeController::class, 'destroy'])->name('mensajes.destroy');
 
-    // Rutas de mensajes
-    Route::post('/mensajes/crear/{id}', [MensajeController::class, 'store'])->name('mensajes.store');
 
     // Rutas de componentes
     Route::get('/componentes', [ComponenteController::class, 'index'])->name('componentes.index');
@@ -143,6 +141,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+// Rutas de mensajes
+Route::post('/mensajes/crear/{id}', [MensajeController::class, 'store'])->name('mensajes.store');
 
 Route::get('configuracion_correo', [ConfCorreoController::class, 'index'])->name('configuracion_correo.index');
 Route::put('configuracion_correo', [ConfCorreoController::class, 'update'])->name('configuracion_correo.update');
