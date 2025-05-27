@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ImagenPrev;
-use App\Models\invitacion;
+use App\Models\Invitacion;
 use Illuminate\Http\Request;
 
 class ImagenPrevController extends Controller
