@@ -7,7 +7,7 @@ use App\Models\Invitacion;
 use Illuminate\Http\Request;
 use App\Models\Invitaciones;
 use App\Exports\InvitadosExport;
-use App\Exports\InvitadosExport_envia;
+use App\Exports\InvitadosExport_Envia;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Hashids\Hashids;
