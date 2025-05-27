@@ -6,6 +6,7 @@ use App\Models\Bloque;
 use App\Models\Colores;
 use App\Models\Contenido;
 use App\Models\Fuente;
+use App\Models\ImagenPrev;
 use App\Models\Ubicacion;
 use App\Models\Invitado;
 use App\Models\Mensaje;
@@ -54,9 +55,9 @@ class BloqueController extends Controller
             return $invitado;
         });
         $mensajes = Mensaje::with('multimedia')->where('invitacion_id', $id)->get();
+        $miniatura = ImagenPrev::where('invitacion_id', $id)->first();
 
-
-        return view('bloques.create', compact('mensajes', 'breadcrumb', 'invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
+        return view('bloques.create', compact('miniatura', 'mensajes', 'breadcrumb', 'invitados', 'id', 'bloques', 'colores', 'ubicaciones', 'fuentes', 'contenidos'));
     }
 
     /**

@@ -7,7 +7,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="Monkey-Invitaciones" name="keywords">
   <meta content="Monkey-Invitaciones" name="description">
-
+  <meta property="og:image" content="{{ asset($miniatura->ruta) }}" />
   <!-- Favicon -->
   <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
 

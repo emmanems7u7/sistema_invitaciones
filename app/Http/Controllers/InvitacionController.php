@@ -9,6 +9,8 @@ use App\Models\Fuente;
 use App\Models\Invitado;
 use App\Models\Mensaje;
 use App\Models\Textura;
+use App\Models\ImagenPrev;
+
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
@@ -92,6 +94,7 @@ class InvitacionController extends Controller
         $fuentes = Fuente::where('invitacion_id', $id)->get();
         $nombre_evento = $invitacion->nombre;
         $invitacion_id = $id;
+        $miniatura = ImagenPrev::where('invitacion_id', $id)->first();
 
         return view('bodas.plantilla_1', compact(
             'bloques_vista',
@@ -99,7 +102,8 @@ class InvitacionController extends Controller
             'id',
             'nombre_evento',
             'invitacion_id',
-            'fuentes'
+            'fuentes',
+            'miniatura'
         ));
     }
 

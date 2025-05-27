@@ -18,6 +18,7 @@ use App\Http\Controllers\FuenteController;
 use App\Http\Controllers\TexturaController;
 use App\Http\Controllers\InvitadoController;
 use App\Http\Controllers\ConfCorreoController;
+use App\Http\Controllers\ImagenPrevController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -31,6 +32,13 @@ Route::middleware(['role:Administrador'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+
+
+
+
+    Route::post('/imagenprev/store/{id}', [ImagenPrevController::class, 'store'])->name('imagenprev.store');
+    Route::delete('/imagen/prev/{id}', [ImagenPrevController::class, 'destroy'])->name('miniatura.destroy');
+
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
