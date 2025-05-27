@@ -1,5 +1,10 @@
 <table>
-
+    <thead>
+        <tr>
+            <th>{{$invitacion->nombre}}</th>
+            <th>{{$usuario}}</th>
+        </tr>
+    </thead>
     <tbody>
         @foreach ($invitados as $invitado)
             <tr>

@@ -7,6 +7,8 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Hashids\Hashids;
 use App\Models\Invitacion;
+use App\Models\User;
+
 
 class InvitadosExport_Envia implements FromView
 {
@@ -21,6 +23,7 @@ class InvitadosExport_Envia implements FromView
     {
         $id = $this->invitacion_id;
         $invitacion = Invitacion::find($id);
+        $usuario = User::find($invitacion->user_id);
         $hashids = new Hashids(config('app.key'), 10);
         $invitados = Invitado::where('invitacion_id', $id)->get()->map(function ($invitado) use ($id, $hashids) {
             $invitado->enlace = route('invitacion.generar_invitado', [
@@ -31,7 +34,8 @@ class InvitadosExport_Envia implements FromView
         });
         return view('invitados.tabla_invitados_enviar', [
             'invitados' => $invitados,
-            'nombre_invitacion' => $invitacion->tipo . ' ' . $invitacion->nombre
+            'invitacion' => $invitacion,
+            'usuario' => $usuario->name
         ]);
     }
 }
