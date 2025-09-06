@@ -10,6 +10,7 @@
                                 <img class="img-fluid mr-md-3" src=" {{ asset('storage/' . $info['imagen']) }} " alt="">
                             </div>
                         @endif
+
                         <div class="col-md-6 text-center text-md-{{$index % 2 == 0 ? 'left' : 'right' }}">
                             <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-4 ml-md-3">
                                 <h4 class="mb-2 " style="color: #fff">{{$info['titulo']}} </h4>
