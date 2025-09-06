@@ -12,9 +12,9 @@
                         @endif
                         <div class="col-md-6 text-center text-md-{{$index % 2 == 0 ? 'left' : 'right' }}">
                             <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-4 ml-md-3">
-                                <h4 class="mb-2">{{$info['titulo']}} </h4>
+                                <h4 class="mb-2 " style="color: #fff">{{$info['titulo']}} </h4>
                                 <p class="text-uppercase mb-2">{{$info['subtitulo']}}</p>
-                                <p class="m-0">{{$info['parrafo']}}</p>
+                                <p class="m-0" style="#f5f5f5">{{$info['parrafo']}}</p>
                             </div>
                         </div>
                         @if($index % 2 != 0)
