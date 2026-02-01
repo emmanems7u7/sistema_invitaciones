@@ -4,6 +4,8 @@
 /storage/pail
 /public/storage/*
 !/public/storage/.gitignore
+
+
 .env
 .env.backup
 .env.production

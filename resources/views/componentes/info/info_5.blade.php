@@ -1,8 +1,8 @@
 @if(isset($bloque['contenido']))
     <style>
         /*------------------------------------------------------------------
-                                                                                                                                    Story
-                                                                                                                                -------------------------------------------------------------------*/
+                                                                                                                                        Story
+                                                                                                                                    -------------------------------------------------------------------*/
 
         .story-box {
             padding: 0px 0px;
@@ -120,6 +120,12 @@
         .lead {
             font-size: 1em;
             text-align: justify;
+        }
+
+        .timeLine .row .item .caption .image img {
+            width: 100%;
+            min-height: 200px;
+            height: auto;
         }
     </style>
 
