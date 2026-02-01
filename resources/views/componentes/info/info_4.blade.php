@@ -12,6 +12,8 @@
                         </div>
                     @endif
 
+
+
                     <div class="col-md-6 p-0 text-center text-md-{{ $index % 2 == 0 ? 'right' : 'left' }} ">
                         <div class="h-100 d-flex flex-column justify-content-center bg-secondary p-5">
                             <h3 class="mb-3">{{$info['titulo']}} </h3>
